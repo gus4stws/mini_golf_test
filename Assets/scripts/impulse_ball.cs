@@ -36,8 +36,20 @@ public class impulse_ball : MonoBehaviour
             hit_vect = Vector3.zero;
             norm_vect= Vector3.zero;
         }
+        Vector3 norm_ball;
+        RaycastHit hit_ball; 
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit_ball))
+        {
+            
+            norm_ball = hit_ball.normal;
+        }
+        else
+        {
+            norm_ball = Vector3.zero;
+        }
+
         Quaternion quaternion_y = Quaternion.LookRotation((hit_vect - transform.position), Vector3.up);
-        Quaternion quaternion = Quaternion.LookRotation(norm_vect, Vector3.forward);
+        Quaternion quaternion = Quaternion.LookRotation(norm_ball, Vector3.forward);
         Vector3 rotation_y = quaternion_y.eulerAngles;
         Vector3 rotation = quaternion.eulerAngles;
 
