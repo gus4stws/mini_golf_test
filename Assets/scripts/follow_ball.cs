@@ -16,26 +16,26 @@ public class follow_ball : MonoBehaviour
         transform.position = ball.transform.position + cameraPosOffset;
         transform.eulerAngles = cameraRotOffset;
         ball_script = ball.GetComponent<impulse_ball>();
-        ant_ball_y_rot = ball_y_rot;
-        ball_y_rot = ball_script.y_rot;
+        transform.position = ball.transform.position + transform.TransformDirection(cameraPosOffset);
+        transform.RotateAround(ball.transform.position, Vector3.up, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
         
-        ball_y_rot = ball_script.y_rot;
+        
         
         if (ball_y_rot != ant_ball_y_rot)
         {
-            transform.RotateAround(ball.transform.position, Vector3.up, 1*(ant_ball_y_rot - ball_y_rot));
+            transform.RotateAround(ball.transform.position, Vector3.up, -(ant_ball_y_rot - ball_y_rot));
+            Debug.Log(ball_y_rot);
             ant_ball_y_rot = ball_y_rot;
         }
         else {
-            //transform.position = ball.transform.position + cameraPosOffset;
+            transform.position = ball.transform.position + transform.TransformDirection(cameraPosOffset);
         }
-
-        
+        ball_y_rot = ball_script.y_rot -90;
 
     }
 }

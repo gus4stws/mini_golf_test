@@ -8,7 +8,7 @@ public class impulse_ball : MonoBehaviour
     [SerializeField] float force = 1f;
     [SerializeField] GameObject line; 
     Rigidbody m_Rigidbody;
-    public float y_rot;
+    public float y_rot = 0;
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
@@ -49,16 +49,14 @@ public class impulse_ball : MonoBehaviour
         Quaternion quaternion = Quaternion.LookRotation(norm_ball, Vector3.forward);
         Vector3 rotation_y = quaternion_y.eulerAngles;
         Vector3 rotation = quaternion.eulerAngles;
-
-        
         line.transform.eulerAngles = new Vector3(270 - rotation.x, rotation_y.y,270-rotation.z);//new Quaternion( 0,rotation_y.y,0,rotation_y.w );
 
-        Debug.Log(rotation_y);
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            y_rot = rotation_y.y;
+            
             Vector3 force_vector = new Vector3(line.transform.rotation.x,line.transform.rotation.y, line.transform.rotation.z);
             m_Rigidbody.AddForce(line.transform.rotation * Vector3.forward * (force));
+            y_rot = rotation_y.y;
         }
     }
 }
