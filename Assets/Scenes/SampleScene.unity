@@ -728,7 +728,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   force: 5
   line: {fileID: 908992249}
-  y_rot: 0
+  y_rot: 90
 --- !u!1001 &2019466091
 PrefabInstance:
   m_ObjectHideFlags: 0

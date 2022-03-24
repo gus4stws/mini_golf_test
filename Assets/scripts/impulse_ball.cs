@@ -8,7 +8,7 @@ public class impulse_ball : MonoBehaviour
     [SerializeField] float force = 1f;
     [SerializeField] GameObject line; 
     Rigidbody m_Rigidbody;
-    public float y_rot = 0;
+    public float y_rot = 90;
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
