@@ -35,7 +35,7 @@ public class follow_ball : MonoBehaviour
         else {
             transform.position = ball.transform.position + transform.TransformDirection(cameraPosOffset);
         }
-        ball_y_rot = ball_script.y_rot -90;
+        ball_y_rot = ball_script.y_rot -90;//dsa
 
     }
 }
