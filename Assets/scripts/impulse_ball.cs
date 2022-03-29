@@ -49,13 +49,12 @@ public class impulse_ball : MonoBehaviour
         Quaternion quaternion = Quaternion.LookRotation(norm_ball, Vector3.forward);
         Vector3 rotation_y = quaternion_y.eulerAngles;
         Vector3 rotation = quaternion.eulerAngles;
-        line.transform.eulerAngles = new Vector3(270 - rotation.x, rotation_y.y,270-rotation.z);//new Quaternion( 0,rotation_y.y,0,rotation_y.w );
-
+        line.transform.eulerAngles = new Vector3(180 - rotation.x, rotation_y.y,270-rotation.z);//new Quaternion( 0,rotation_y.y,0,rotation_y.w );
+        float dist = Vector3.Distance(new Vector3(hit_vect.x, hit_vect.y, transform.position.z), transform.position); // distance between the ball and the mouse, but just using z position of the ball
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            
-            Vector3 force_vector = new Vector3(line.transform.rotation.x,line.transform.rotation.y, line.transform.rotation.z);
-            m_Rigidbody.AddForce(line.transform.rotation * Vector3.forward * (force));
+            Quaternion force_vector = Quaternion.Euler(new Vector3(270 - rotation.x, rotation_y.y, 270 - rotation.z));
+            m_Rigidbody.AddForce(force_vector * Vector3.forward * (force) * dist);
             y_rot = rotation_y.y;
         }
     }
