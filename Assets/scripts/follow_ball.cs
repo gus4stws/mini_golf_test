@@ -11,10 +11,11 @@ public class follow_ball : MonoBehaviour
     private float ant_ball_y_rot = 0;
     private float ball_y_rot = 0;
     private Vector3 current_position, prev_position;
-    private Quaternion current_rotation, prev_rotation;
+    private Quaternion current_rotation;
     // Start is called before the first frame update
     void Start()
     {
+        prev_position = transform.position;
         transform.position = ball.transform.position + cameraPosOffset;
         transform.eulerAngles = cameraRotOffset;
         ball_script = ball.GetComponent<impulse_ball>();
@@ -42,11 +43,12 @@ public class follow_ball : MonoBehaviour
         current_position = new Vector3(Circle_x((ball_y_rot) - 270, 1, ball.transform.position.x), ball.transform.position.y + 1, Circle_y((ball_y_rot) - 90, 1, ball.transform.position.z));
         Vector3 relativePos = ball.transform.position - transform.position;
         current_rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-        //transform.position = current_position;
-        transform.rotation = current_rotation;//Quaternion.Slerp(prev_rotation, current_rotation, (1/60f));
-        transform.position = Vector3.Slerp(prev_position, current_position, (1/60f));
-        prev_position = transform.position;
-        prev_rotation = transform.rotation;
+        if (!ball_script.outsided_track)
+        {
+            transform.rotation = current_rotation;//Quaternion.Slerp(prev_rotation, current_rotation, (1/60f));
+            transform.position = Vector3.Slerp(prev_position, current_position, (1 / 60f));
+            prev_position = transform.position;
+        }
     }
 
     float Circle_x(float angle_deg, float radius, float x) 

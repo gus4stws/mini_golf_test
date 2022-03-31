@@ -6,16 +6,20 @@ public class impulse_ball : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] float force = 1f;
-    [SerializeField] GameObject line; 
+    [SerializeField] GameObject line;
+    [HideInInspector] public bool outsided_track = false;
     Rigidbody m_Rigidbody;
+    private Vector3 last_pos;
+    private float time_init = 0;
     public float y_rot = 90;
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        last_pos = transform.position;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
 
 
@@ -51,11 +55,29 @@ public class impulse_ball : MonoBehaviour
         Vector3 rotation = quaternion.eulerAngles;
         line.transform.eulerAngles = new Vector3(180 - rotation.x, rotation_y.y,270-rotation.z);//new Quaternion( 0,rotation_y.y,0,rotation_y.w );
         float dist = Vector3.Distance(new Vector3(hit_vect.x, hit_vect.y, transform.position.z), transform.position); // distance between the ball and the mouse, but just using z position of the ball
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) & (m_Rigidbody.velocity == Vector3.zero))
         {
+            last_pos = transform.position;
             Quaternion force_vector = Quaternion.Euler(new Vector3(270 - rotation.x, rotation_y.y, 270 - rotation.z));
             m_Rigidbody.AddForce(force_vector * Vector3.forward * (force) * dist);
             y_rot = rotation_y.y;
+        }
+
+        if (((Time.fixedTime - time_init) > 2) & outsided_track)
+        {
+            //m_Rigidbody.velocity = new Vector3(0, 0, 0); // uncoment when the ball is moving during the relocation
+            outsided_track = false;
+            transform.position = last_pos;
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.name == "floor")
+        {
+            time_init = Time.fixedTime;
+            outsided_track = true;
+            
         }
     }
 }
